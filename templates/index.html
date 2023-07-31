@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+    <style>
+       body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    padding: 0;
+    background-color: #f1f1f1;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.form-container {
+    width: 400px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+}
+
+.form-container label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.form-container input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.form-container input[type="submit"] {
+    width: 100%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.form-container input[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+#result-container {
+    width: 300px;
+    margin: 20px auto;
+    text-align: center;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#result-container h2 {
+    margin-bottom: 10px;
+}
+
+#predicted-weight {
+    font-size: 24px;
+    font-weight: bold;
+    color: #4CAF50;
+}
+
+
+    </style>
+<head>
+    <title>Fish Weight Prediction</title>
+</head>
+<body>
+    <h1>Fish Weight Prediction</h1>
+    <div style="display: flex;">
+        <img src="https://www.pngitem.com/pimgs/m/52-522573_gif-animation-transparent-background-clipart-fish-gif-hd.png" alt="Fish Image" class="fish-image">
+        <div class="form-container">
+            <form id="prediction-form">
+                <label for="length_ver">LengthVer:</label>
+                <input type="number" step="0.01" name="length_ver" id="length_ver" required>
+                <br>
+                <label for="length_dia">LengthDia:</label>
+                <input type="number" step="0.01" name="length_dia" id="length_dia" required>
+                <br>
+                <label for="length_cro">LengthCro:</label>
+                <input type="number" step="0.01" name="length_cro" id="length_cro" required>
+                <br>
+                <label for="height">Height:</label>
+                <input type="number" step="0.01" name="height" id="height" required>
+                <br>
+                <label for="width">Width:</label>
+                <input type="number" step="0.01" name="width" id="width" required>
+                <br>
+                <input type="submit" value="Predict Weight">
+            </form>
+            <div id="result-container">
+                <h2>Predicted Weight:</h2>
+                <p id="predicted-weight">-</p>
+            </div>
+        </div>
+    
+       
+    </div>
+   
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#prediction-form').on('submit', function(event) {
+                event.preventDefault();
+                const formData = $(this).serializeArray();
+                const data = {};
+                formData.forEach(input => {
+                    data[input.name] = parseFloat(input.value);
+                });
+                $.ajax({
+                    type: 'POST',
+                    url: '/predict',
+                    contentType: 'application/json',
+                    data: JSON.stringify(data),
+                    success: function(response) {
+                        $('#predicted-weight').text(response.predicted_weight.toFixed(2));
+                    },
+                    error: function(error) {
+                        console.error('Error:', error);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
