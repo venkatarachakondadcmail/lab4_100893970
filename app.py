@@ -4,7 +4,7 @@ from flask import render_template
 
 
 app = Flask(__name__)
-
+model = joblib.load('fish_weight_model.pkl')
 
 @app.route('/')
 def index():
@@ -12,9 +12,7 @@ def index():
 
 @app.route('/predict', methods=['POST'])
 def predict_weight():
-
    
-    model = joblib.load('fish_weight_model.pkl')
     # Load the traned model
     data = request.get_json()
     length_ver = data['length_ver']
