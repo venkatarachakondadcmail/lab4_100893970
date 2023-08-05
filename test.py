@@ -10,8 +10,8 @@ def index():
     return render_template('index.html')
 
 # Replace these with your actual AWS credentials and S3 bucket and key names
-aws_access_key_id = 'AKIATWJPBAU4O3LOUPP3'
-aws_secret_access_key = 'WdQdQURROu3raA4CsRLvPWysuDTkAcatb4ajxTEH'
+aws_access_key_id = ''
+aws_secret_access_key = ''
 bucket_name = 'fishweighttest'
 model_key = 'fish_weight_model.pkl'
 
